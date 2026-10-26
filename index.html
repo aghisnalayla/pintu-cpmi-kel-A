@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PINTU-UJIAN | Pusat Informasi Pendaftaran Peningkatan Kapasitas CPMI | BP3MI Jawa Tengah</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Logo_Kementerian_Pelindungan_Pekerja_Migran_Indonesia_-_BP2MI_v2_%282024%29.svg/960px-Logo_Kementerian_Pelindungan_Pekerja_Migran_Indonesia_-_BP2MI_v2_%282024%29.svg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .liquid-bg {
+            background: linear-gradient(135deg, #fbcfe8 0%, #e0e7ff 50%, #ccfbf1 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes liquidMove1 {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(50px, -80px) scale(1.2); }
+            66% { transform: translate(-30px, 40px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+
+        @keyframes liquidMove2 {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(-60px, 60px) scale(1.1); }
+            66% { transform: translate(40px, -50px) scale(1.25); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+
+        .liquid-blob-1 {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: rgba(199, 210, 254, 0.6);
+            filter: blur(80px);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: liquidMove1 12s infinite alternate ease-in-out;
+            z-index: -1;
+        }
+
+        .liquid-blob-2 {
+            position: absolute;
+            bottom: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: rgba(251, 207, 232, 0.6);
+            filter: blur(90px);
+            border-radius: 60% 40% 30% 70% / 50% 30% 70% 50%;
+            animation: liquidMove2 15s infinite alternate ease-in-out;
+            z-index: -1;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+    </style>
+    
+    <script>
+        function updateServerClock() {
+            const now = new Date();
+            const options = { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            const timeString = new Intl.DateTimeFormat('en-GB', options).format(now);
+            const clockElement = document.getElementById('server-clock');
+            if (clockElement) {
+                clockElement.textContent = timeString + ' WIB';
+            }
+        }
+        setInterval(updateServerClock, 1000);
+        window.addEventListener('DOMContentLoaded', updateServerClock);
+    </script>
+</head>
+<body class="liquid-bg text-slate-800 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <div class="liquid-blob-1"></div>
+    <div class="liquid-blob-2"></div>
+    <header class="glass-card border-b border-white/40 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex justify-between items-center">
+            
+            <div class="flex items-center space-x-3">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Logo_Kementerian_Pelindungan_Pekerja_Migran_Indonesia_-_BP2MI_v2_%282024%29.svg/960px-Logo_Kementerian_Pelindungan_Pekerja_Migran_Indonesia_-_BP2MI_v2_%282024%29.svg.png" 
+                     alt="Logo BP2MI" class="h-10 sm:h-11 w-auto object-contain drop-shadow-sm">
+                <div>
+                    <span class="block font-bold text-slate-800 text-sm sm:text-base leading-tight">PINTU-UJIAN | Pusat Informasi Pendaftaran Peningkatan Kapasitas CPMI</span>
+                    <span class="block text-xs text-slate-500 font-medium">BP3MI Jawa Tengah</span>
+                </div>
+            </div>
+
+            <div class="hidden sm:flex flex-col items-end text-xs text-slate-600 bg-white/60 px-3 py-1.5 rounded-xl border border-white/80 shadow-xs">
+                <span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Jam Server</span>
+                <span id="server-clock" class="font-extrabold text-indigo-700 tracking-wide">--:--:-- WIB</span>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center max-w-md mx-auto px-4 py-8 sm:py-12 w-full">
+        <div class="glass-card rounded-3xl shadow-xl shadow-indigo-500/5 p-6 sm:p-8 w-full">
+            
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-extrabold text-slate-900">Portal Masuk Ujian</h1>
+                <p class="text-slate-500 text-xs sm:text-sm mt-1">Silakan masukkan identitas kependudukan Anda untuk memulai sesi ujian.</p>
+            </div>
+
+            <div id="alertBox" class="hidden mb-6 p-4 rounded-2xl text-sm font-medium border backdrop-blur-md"></div>
+
+            <div id="formPesertaContainer">
+                <form id="formLoginPeserta" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Nomor Induk Kependudukan (NIK)</label>
+                        <input type="text" id="nik" name="nik" required placeholder="Masukkan NIK sesuai KTP" maxlength="16" pattern="\d{16}"
+                            class="w-full px-4 py-3.5 rounded-2xl bg-white/70 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-slate-700 text-sm transition font-mono">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Tanggal Lahir</label>
+                        <input type="date" id="tanggal_lahir" name="tanggal_lahir" required 
+                            class="w-full px-4 py-3.5 rounded-2xl bg-white/70 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-slate-700 text-sm transition">
+                    </div>
+
+                    <button type="submit" id="btnSubmitPeserta" 
+                        class="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-500/25 transition duration-200 text-sm tracking-wide mt-2">
+                        Periksa Identitas & Masuk
+                    </button>
+                </form>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-200/60 flex items-center justify-center space-x-1.5 text-[11px] text-slate-500">
+                <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd"></path></svg>
+                <span>Pelindungan Data Pribadi (UU PDP No. 27/2022)</span>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="modalKonfirmasi" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass-card rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-white/80 transition-all">
+            
+            <div class="flex items-center space-x-2 text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl text-xs font-bold w-fit mb-4">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>Identitas Ditemukan</span>
+            </div>
+
+            <h2 class="font-extrabold text-slate-900 text-lg">Konfirmasi Data Diri</h2>
+            <p class="text-xs text-slate-500 mt-1 mb-5">Data Anda disamarkan untuk keamanan. Pastikan data ini sesuai sebelum memulai sesi ujian.</p>
+            <div class="bg-white/80 rounded-2xl p-4 border border-slate-200/80 space-y-3 text-xs mb-6 shadow-xs">
+                <div>
+                    <span class="text-slate-400 block font-semibold text-[10px] uppercase">Nama Lengkap</span>
+                    <span id="maskNama" class="font-bold text-slate-800 text-sm tracking-wide">-</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+                    <div>
+                        <span class="text-slate-400 block font-semibold text-[10px] uppercase">NIK KTP</span>
+                        <span id="maskNIK" class="font-mono font-bold text-slate-700">-</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block font-semibold text-[10px] uppercase">ID CPMI</span>
+                        <span id="maskID" class="font-mono font-bold text-indigo-600">-</span>
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100">
+                    <span class="text-slate-400 block font-semibold text-[10px] uppercase">Alamat Domisili</span>
+                    <span id="maskAlamat" class="font-medium text-slate-700">-</span>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100">
+                    <span class="text-slate-400 block font-semibold text-[10px] uppercase">Batch & Lembaga Pelatihan</span>
+                    <span id="maskBatchLembaga" class="font-semibold text-slate-700">-</span>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <button type="button" id="btnKonfirmasiLanjut" 
+                    class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-2xl text-sm transition shadow-lg shadow-emerald-500/25">
+                    Benar, Ini Data Saya &rarr; Masuk Ujian
+                </button>
+
+                <button type="button" onclick="tutupModalKonfirmasi()" 
+                    class="w-full py-2.5 rounded-2xl border border-slate-200/80 text-slate-600 hover:bg-slate-50 font-semibold text-xs transition">
+                    Bukan Data Saya (Batalkan)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="w-full mt-auto text-center py-6 text-xs text-slate-500 border-t border-white/40 glass-card">
+        &copy; <span id="yearSpan">2026</span> Prima Ammaray, Tim Teknologi Informasi | BP3MI Jawa Tengah. All rights reserved.
+    </footer>
+
+    <script>
+        document.getElementById('yearSpan').textContent = new Date().getFullYear();
+        const alertBox = document.getElementById('alertBox');
+        let redirectUrl = 'dashboard.php';
+
+        function maskNIK(nik) {
+            if (!nik) return '-';
+            nik = String(nik).trim();
+            if (nik.length < 8) return nik;
+            return nik.substring(0, 4) + '*'.repeat(nik.length - 8) + nik.slice(-4);
+        }
+
+        function maskNama(nama) {
+            if (!nama) return '-';
+            return nama.trim().split(/\s+/).map(kata => {
+                if (kata.length <= 1) return kata;
+                if (kata.length === 2) return kata[0] + '*';
+                return kata[0] + '*'.repeat(kata.length - 1);
+            }).join(' ');
+        }
+
+        function maskAlamat(alamat) {
+            if (!alamat || alamat === '-') return '-';
+            const parts = alamat.split(',');
+            if (parts.length > 1) {
+                let jalan = parts[0].trim().replace(/\d+/g, '**');
+                if (jalan.length > 4) {
+                    jalan = jalan.substring(0, 4) + '*'.repeat(Math.min(6, jalan.length - 4));
+                }
+                parts[0] = jalan;
+                return parts.map(p => p.trim()).join(', ');
+            }
+            return alamat.substring(0, 4) + '*'.repeat(Math.max(4, Math.min(8, alamat.length - 4)));
+        }
+
+        function tutupModalKonfirmasi() {
+            document.getElementById('modalKonfirmasi').classList.add('hidden');
+        }
+
+        async function parseServerResponse(response) {
+            const rawText = await response.text();
+            try {
+                return JSON.parse(rawText);
+            } catch (e) {
+                console.error("Respon bukan JSON:", rawText);
+                const cleanText = rawText.replace(/<[^>]*>?/gm, '').trim();
+                throw new Error(cleanText || "Terjadi kesalahan respon dari server.");
+            }
+        }
+
+        document.getElementById('formLoginPeserta').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const nik = document.getElementById('nik').value.trim();
+            const tanggal_lahir = document.getElementById('tanggal_lahir').value.trim();
+            const btn = document.getElementById('btnSubmitPeserta');
+
+            alertBox.classList.add('hidden');
+            btn.disabled = true;
+            btn.textContent = 'Memverifikasi...';
+
+            try {
+                const response = await fetch('api/login_peserta.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nik, tanggal_lahir })
+                });
+
+                const result = await parseServerResponse(response);
+
+                if (result.status === 'success') {
+                    redirectUrl = result.redirect || 'dashboard.php';
+                    
+                    const p = result.peserta || result.data || {};
+
+                    document.getElementById('maskNama').textContent = maskNama(p.nama_lengkap || 'Peserta Ujian');
+                    document.getElementById('maskNIK').textContent = maskNIK(p.nik_sesuai_ktp || nik);
+                    document.getElementById('maskID').textContent = p.cpmi_id || '-';
+                    document.getElementById('maskAlamat').textContent = maskAlamat(p.alamat_domisili || '-');
+                    
+                    const batch = p.batch_pelatihan || '-';
+                    const lembaga = p.lembaga_pelatihan || '-';
+                    document.getElementById('maskBatchLembaga').textContent = batch + ' — ' + lembaga;
+
+                    document.getElementById('modalKonfirmasi').classList.remove('hidden');
+
+                    btn.disabled = false;
+                    btn.textContent = 'Periksa Identitas & Masuk';
+                } else {
+                    throw new Error(result.message || 'Gagal melakukan verifikasi identitas.');
+                }
+            } catch (error) {
+                alertBox.className = 'mb-6 p-4 rounded-2xl text-sm font-medium border bg-rose-50/90 border-rose-200 text-rose-800 backdrop-blur-md';
+                alertBox.textContent = error.message;
+                alertBox.classList.remove('hidden');
+                btn.disabled = false;
+                btn.textContent = 'Periksa Identitas & Masuk';
+            }
+        });
+
+        document.getElementById('btnKonfirmasiLanjut').addEventListener('click', function() {
+            this.textContent = 'Memuat Halaman Ujian...';
+            this.disabled = true;
+            window.location.href = redirectUrl;
+        });
+    </script>
+</body>
+</html>  
